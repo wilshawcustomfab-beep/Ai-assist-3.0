@@ -1,0 +1,39 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    // For Templars Airsoft UK admin, marshal, and operational staff
+    match /users/{userId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
+    match /armoury/{itemId} {
+      allow read: if true;
+      allow write: if true; // Marshals and managers can log FPS & repairs
+    }
+
+    match /bookings/{bookingId} {
+      allow read, write: if true; // Players can book, managers can update
+    }
+
+    match /finance/{transactionId} {
+      allow read, write: if true;
+    }
+
+    match /operations/{eventId} {
+      allow read, write: if true;
+    }
+
+    match /audit_logs/{logId} {
+      allow read, write: if true;
+    }
+
+    match /test/connection {
+      allow read: if true;
+    }
+  }
+}

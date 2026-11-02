@@ -1,0 +1,131 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authorized administrator or marshal profile for Templars Airsoft UK",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["manager", "head_marshal", "marshal", "admin"] },
+        "callsign": { "type": "string" },
+        "phone": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["uid", "name", "email", "role"]
+    },
+    "ArmouryItem": {
+      "title": "ArmouryItem",
+      "description": "Airsoft hire weapon, chrono reading, and maintenance status",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "assetTag": { "type": "string" },
+        "model": { "type": "string" },
+        "category": { "type": "string", "enum": ["aeg", "dmr", "sniper", "pistol", "pyro", "consumable"] },
+        "serialNumber": { "type": "string" },
+        "fpsChrono": { "type": "number" },
+        "lastChronoDate": { "type": "string" },
+        "status": { "type": "string", "enum": ["operational", "in_repair", "maintenance_due", "decommissioned"] },
+        "repairNotes": { "type": "string" },
+        "batteryType": { "type": "string" }
+      },
+      "required": ["id", "assetTag", "model", "category", "status"]
+    },
+    "BookingRecord": {
+      "title": "BookingRecord",
+      "description": "Customer booking, hire requirements, deposit, and waiver record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "customerName": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "playerType": { "type": "string", "enum": ["walk_on", "full_hire", "group_package"] },
+        "playerCount": { "type": "number" },
+        "gameDate": { "type": "string" },
+        "totalAmount": { "type": "number" },
+        "depositPaid": { "type": "number" },
+        "balanceDue": { "type": "number" },
+        "status": { "type": "string", "enum": ["enquiry", "confirmed", "checked_in", "completed", "cancelled"] },
+        "waiverSigned": { "type": "boolean" },
+        "ukaraNumber": { "type": "string" }
+      },
+      "required": ["id", "customerName", "gameDate", "playerCount", "status"]
+    },
+    "FinanceRecord": {
+      "title": "FinanceRecord",
+      "description": "Income, expenditure, site rent, liabilities, and event profitability",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string", "enum": ["income", "expense"] },
+        "category": { "type": "string" },
+        "amount": { "type": "number" },
+        "date": { "type": "string" },
+        "description": { "type": "string" },
+        "paymentMethod": { "type": "string" },
+        "status": { "type": "string", "enum": ["confirmed", "pending_approval"] },
+        "approvedBy": { "type": "string" }
+      },
+      "required": ["id", "type", "category", "amount", "date", "description"]
+    },
+    "OperationalEvent": {
+      "title": "OperationalEvent",
+      "description": "Game-day schedule, staff rotas, safety checks, and woodland maintenance",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "date": { "type": "string" },
+        "title": { "type": "string" },
+        "status": { "type": "string", "enum": ["scheduled", "in_progress", "completed", "archived"] },
+        "weather": { "type": "string" },
+        "headMarshal": { "type": "string" }
+      },
+      "required": ["id", "date", "title", "status"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Immutable security and operational audit trail for Paul and Storm",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "actorName": { "type": "string" },
+        "role": { "type": "string" },
+        "action": { "type": "string" },
+        "department": { "type": "string" },
+        "details": { "type": "string" },
+        "humanConfirmed": { "type": "boolean" }
+      },
+      "required": ["id", "timestamp", "actorName", "action", "department"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Authorized staff and administrator accounts"
+    },
+    "/armoury/{itemId}": {
+      "schema": "ArmouryItem",
+      "description": "Rental weapons, FPS chrono checks, and gear maintenance log"
+    },
+    "/bookings/{bookingId}": {
+      "schema": "BookingRecord",
+      "description": "Airsoft player bookings, hire packages, and waivers"
+    },
+    "/finance/{transactionId}": {
+      "schema": "FinanceRecord",
+      "description": "Income, expenses, site rent, and game-day profit transactions"
+    },
+    "/operations/{eventId}": {
+      "schema": "OperationalEvent",
+      "description": "Game-day run sheets, staff rotas, and safety logs"
+    },
+    "/audit_logs/{logId}": {
+      "schema": "AuditLog",
+      "description": "Audit trails for operations, finance, and system commands"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "RuFlo × Luna Agent Platform",
+  "description": "Autonomous multi-agent swarm orchestration platform paired with Luna, an intelligent proactive assistant for seamless developer workflows, AgentDB vector memory, and policy governance.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
